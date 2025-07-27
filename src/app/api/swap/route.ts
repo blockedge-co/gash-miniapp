@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import type { SwapRequest, SwapResponse, ApiResponse } from '@/types';
+import { addTransaction } from '../transactions/route';
 
 // Mock data for development
 const mockUsers = new Map();
@@ -84,6 +85,9 @@ export async function POST(request: NextRequest) {
     };
 
     mockTransactions.set(transaction.id, transaction);
+
+    // Add to the transaction store for the new API
+    addTransaction(userId, transaction);
 
     // Simulate processing delay
     await new Promise(resolve => setTimeout(resolve, 1000));

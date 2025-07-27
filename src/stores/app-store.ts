@@ -123,3 +123,17 @@ export const useAppActions = () =>
     setError: state.setError,
     reset: state.reset,
   }));
+
+// Helper function to fetch user transactions
+export const fetchUserTransactions = async (userId: string) => {
+  try {
+    const response = await fetch(`/api/transactions?userId=${userId}`);
+    const result = await response.json();
+
+    if (result.success && result.data) {
+      useAppStore.getState().setTransactions(result.data);
+    }
+  } catch (error) {
+    console.error('Failed to fetch transactions:', error);
+  }
+};
